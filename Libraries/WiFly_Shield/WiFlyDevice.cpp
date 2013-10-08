@@ -828,6 +828,39 @@ const char * WiFlyDevice::ip() {
   return ip;
 }
 
+#define MAC_ADDRESS_SIZE 17 // "aa:bb:cc:dd:ee:ff"
+
+const char* WiFlyDevice::getMac()
+{
+  // Allocate one extra space for the zero terminator.
+  static char mac[MAC_ADDRESS_SIZE+1] = { 0 };
+
+  enterCommandMode();
+  sendCommand(F("get mac"), false, "Mac Addr=");
+
+  int offset = 0;
+  while (offset < MAC_ADDRESS_SIZE) {
+    int readVal = uart->read();
+    if (readVal == -1) {
+      // Data not available; try again after brief delay.
+      delay(1);
+      continue;
+    }
+    else {
+      mac[offset++] = readVal;
+    }
+  }
+
+  waitForResponse("<");
+  findInResponse(" ");
+
+  // TODO: Fix this; see comment in WiFlyDevice::ip().
+  uart->println(F("exit"));
+  //sendCommand(F("exit"), false, "EXIT");
+
+  return mac;
+}
+
 boolean WiFlyDevice::configure(byte option, unsigned long value) {
   /*
    */
