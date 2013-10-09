@@ -687,16 +687,25 @@ boolean WiFlyDevice::createAdHocNetwork(const char *ssid)
   //After rebooting, your AdHoc network will be available.
 }
 
-void WiFlyDevice::useUDP()
+/**
+* @brief Configure the WiFly to use UDP protocol
+* @param _localport Local port to "listen" in. Defaults to 80.
+*/
+void WiFlyDevice::useUDP(int _localport)
 {
   if (commandModeFlag) 
   {
 		exitCommandMode();
 	}
 	enterCommandMode();
+	String com="set ip localport ";
+	com+=_localport;
+	
+	char comChar[com.length()+1];
+	com.toCharArray(comChar, com.length()+1);
 	
 	sendCommand("set ip protocol 1", false);
-	sendCommand("set ip localport 80", false);
+	sendCommand(comChar, false);
 	
 	exitCommandMode();
 }

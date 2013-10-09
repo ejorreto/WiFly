@@ -26,7 +26,7 @@ class WiFlyDevice {
 	  long getTime();
     const char * getConnectionStatus();
     const char * ip();
-    void useUDP();
+    void useUDP(int _localport=80);
     int available();
     char getChar();
     size_t  write(const uint8_t *buffer, size_t size) ;
