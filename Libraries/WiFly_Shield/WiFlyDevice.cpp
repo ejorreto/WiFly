@@ -854,8 +854,9 @@ const char* WiFlyDevice::getMac()
   waitForResponse("<");
   findInResponse(" ");
 
+  exitCommandMode(); // This seems to be working fine
   // TODO: Fix this; see comment in WiFlyDevice::ip().
-  uart->println(F("exit"));
+  //uart->println(F("exit"));
   //sendCommand(F("exit"), false, "EXIT");
 
   return mac;
