@@ -26,6 +26,7 @@ class WiFlyDevice {
 	  long getTime();
     const char * getConnectionStatus();
     const char * ip();
+    const char * getVersion();
     const char* getMac();
     void useUDP(int _localport=80);
     int available();
